@@ -3,6 +3,8 @@
 #include <string>
 #include <algorithm>
 
+using Utils::Difficulty;
+
 Menu::Menu() : difficulty_level{ Difficulty::EASY } {}
 
 void Menu::Run()
