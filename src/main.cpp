@@ -2,8 +2,20 @@
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
+#include "menu.h"
+#include "utilities.h"
+
+using Utilities::Difficulty;
 
 int main() {
+
+  Menu menu;
+  menu.Run();
+  Difficulty difficulty_level{menu.GetDifficultyLevel()};
+  std::size_t level = Utilities::determine_frame_rate(difficulty_level);
+  std::cout << "Difficulty: " << level << std::endl;
+
+  // Set kFramesPerSecond based on difficulty;
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kScreenWidth{640};

@@ -3,7 +3,7 @@
 #include <string>
 #include <algorithm>
 
-using Utils::Difficulty;
+using Utilities::Difficulty;
 
 Menu::Menu() : difficulty_level{ Difficulty::EASY } {}
 
