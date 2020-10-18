@@ -120,7 +120,12 @@ void Scoreboard::SaveScores()
     {
         for (Entry& entry : scores)
         {
-            stream << entry.GetName() << " " << entry.GetScore() << " " << entry.GetDifficulty() << std::endl;
+            stream << entry.GetName()
+                   << " "
+                   << entry.GetScore()
+                   << " "
+                   << entry.GetDifficulty()
+                   << std::endl;
         }
         stream.close();
     } else {
