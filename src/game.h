@@ -9,7 +9,8 @@
 
 class Game {
  public:
-  Game(std::size_t grid_width, std::size_t grid_height);
+  Game(std::size_t grid_width, std::size_t grid_height,
+      float initial_speed, float rate_of_increase);
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
@@ -25,6 +26,7 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
+  float rate_of_increase{};
 
   void PlaceFood();
   void Update();

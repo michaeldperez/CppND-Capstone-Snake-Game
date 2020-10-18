@@ -1,6 +1,7 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 #include <iostream>
+#include <string>
 
 namespace Utilities
 {
@@ -11,7 +12,14 @@ namespace Utilities
         HARD
     };
 
-    std::size_t determine_frame_rate(Difficulty difficulty_level);
+    struct SpeedConstants
+    {
+        float initial_speed;
+        float rate_of_increase;
+    };
+
+    SpeedConstants DetermineSpeedConstants(Difficulty difficulty_level);
+    std::string DifficultyLevelString(Difficulty difficulty_level);
 }
 
 #endif

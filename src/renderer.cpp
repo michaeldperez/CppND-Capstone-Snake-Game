@@ -1,14 +1,16 @@
 #include "renderer.h"
 #include <iostream>
-#include <string>
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height,
-                   const std::size_t grid_width, const std::size_t grid_height)
+                   const std::size_t grid_width,
+                   const std::size_t grid_height,
+                   const std::string difficulty)
     : screen_width(screen_width),
       screen_height(screen_height),
       grid_width(grid_width),
-      grid_height(grid_height) {
+      grid_height(grid_height),
+      difficulty(difficulty) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -76,6 +78,6 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
 }
 
 void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps) + " Difficulty: " + difficulty};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }

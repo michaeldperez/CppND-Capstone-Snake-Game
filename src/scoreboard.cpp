@@ -59,8 +59,9 @@ void Scoreboard::DisplayScores()
     std::cout << "_____________________________" << std::endl;
     for (Entry& entry : scores)
     {
+        std::string entry_name{ entry.name };
         int pad = MAX_STRING_SIZE - entry.name.size();
-        std::cout << entry.name.append(pad, ' ') << entry.score << std::endl;
+        std::cout << entry_name.append(pad, ' ') << entry.score << std::endl;
     }
     std::cout << "\n";
 }

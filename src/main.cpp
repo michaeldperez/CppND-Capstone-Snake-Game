@@ -3,19 +3,18 @@
 #include "game.h"
 #include "renderer.h"
 #include "menu.h"
+#include "scoreboard.h"
 #include "utilities.h"
-
-using Utilities::Difficulty;
 
 int main() {
 
   Menu menu;
   menu.Run();
-  Difficulty difficulty_level{menu.GetDifficultyLevel()};
-  std::size_t level = Utilities::determine_frame_rate(difficulty_level);
-  std::cout << "Difficulty: " << level << std::endl;
 
-  // Set kFramesPerSecond based on difficulty;
+  Utilities::Difficulty difficulty_level = menu.GetDifficultyLevel();
+  std::string kDifficulty = Utilities::DifficultyLevelString(difficulty_level);
+  const auto [kInitialSpeed, kRateOfIncrease] = Utilities::DetermineSpeedConstants(difficulty_level);
+
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kScreenWidth{640};
@@ -23,12 +22,15 @@ int main() {
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
 
-  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight, kDifficulty);
   Controller controller;
-  Game game(kGridWidth, kGridHeight);
+  Game game(kGridWidth, kGridHeight, kInitialSpeed, kRateOfIncrease);
   game.Run(controller, renderer, kMsPerFrame);
+  
+  Scoreboard scoreboard("high_scores.txt");
+  int player_score{ game.GetScore() };
+  scoreboard.HandleScore(player_score);
   std::cout << "Game has terminated successfully!\n";
-  std::cout << "Score: " << game.GetScore() << "\n";
-  std::cout << "Size: " << game.GetSize() << "\n";
+
   return 0;
 }

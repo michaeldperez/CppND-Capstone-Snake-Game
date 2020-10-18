@@ -2,11 +2,13 @@
 #include <iostream>
 #include "SDL.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+Game::Game(std::size_t grid_width, std::size_t grid_height,
+          float initial_speed, float rate_of_increase)
+    : snake(grid_width, grid_height, initial_speed),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height)) {
+      random_h(0, static_cast<int>(grid_height)),
+      rate_of_increase(rate_of_increase) {
   PlaceFood();
 }
 

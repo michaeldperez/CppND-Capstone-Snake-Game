@@ -2,13 +2,15 @@
 #define RENDERER_H
 
 #include <vector>
+#include <string>
 #include "SDL.h"
 #include "snake.h"
 
 class Renderer {
  public:
   Renderer(const std::size_t screen_width, const std::size_t screen_height,
-           const std::size_t grid_width, const std::size_t grid_height);
+           const std::size_t grid_width, const std::size_t grid_height,
+           const std::string difficulty);
   ~Renderer();
 
   void Render(Snake const snake, SDL_Point const &food);
@@ -22,6 +24,7 @@ class Renderer {
   const std::size_t screen_height;
   const std::size_t grid_width;
   const std::size_t grid_height;
+  const std::string difficulty;
 };
 
 #endif
