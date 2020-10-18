@@ -17,7 +17,7 @@ void Menu::Run()
         int choice = GetInput();
         if (IsInputValid(choice))
         {
-            Difficulty level{DetermineDifficultyLevel(choice)};
+            Difficulty level = DetermineDifficultyLevel(choice);
             SetDifficultyLevel(level);
             loop = false;
         } else {
@@ -28,7 +28,7 @@ void Menu::Run()
 
 bool Menu::IsInputValid(int option)
 {
-    return (option > 0) && (option < 5);
+    return (option > 0) && (option < 4);
 }
 
 int Menu::GetInput()
@@ -60,7 +60,6 @@ void Menu::DisplayMenu()
     std::cout << "1 - Easy\n";
     std::cout << "2 - Medium\n";
     std::cout << "3 - Hard\n";
-    std::cout << "4 - Quit\n";
 }
 
 Difficulty Menu::DetermineDifficultyLevel(int level)
