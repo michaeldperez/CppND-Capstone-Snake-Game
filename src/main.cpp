@@ -28,8 +28,8 @@ int main() {
   game.Run(controller, renderer, kMsPerFrame);
   
   Scoreboard scoreboard("high_scores.txt");
-  int player_score{ game.GetScore() };
-  scoreboard.HandleScore(player_score);
+  int player_score = game.GetScore();
+  scoreboard.HandleScore(player_score, kDifficulty);
   std::cout << "Game has terminated successfully!\n";
 
   return 0;

@@ -5,19 +5,22 @@
 #include <utility>
 #include <functional>
 
-const int MAX_STRING_SIZE = 25;
+const int MAX_STRING_SIZE = 15;
 
-Entry::Entry(std::string name, int score)
+Entry::Entry(std::string name, int score, std::string difficulty)
     : name{ name }
-    , score{ score } {}
+    , score{ score }
+    , difficulty{ difficulty } {}
 
 Entry::Entry(Entry const& other)
     : name{ other.name }
-    , score{ other.score } {}
+    , score{ other.score }
+    , difficulty{ other.difficulty } {}
 
 Entry::Entry(Entry&& other) noexcept
     : name{ std::move(other.name) }
-    , score{ std::exchange(other.score, 0) } {}
+    , score{ std::exchange(other.score, 0) }
+    , difficulty{ std::move(other.difficulty) } {}
 
 Entry& Entry::operator=(Entry const& other)
 {
@@ -25,6 +28,7 @@ Entry& Entry::operator=(Entry const& other)
     {
         name = other.name;
         score = other.score;
+        difficulty = other.difficulty;
     }
 
     return *this;
@@ -36,6 +40,7 @@ Entry& Entry::operator=(Entry&& other) noexcept
     {
         name = std::move(other.name);
         score = std::exchange(other.score, 0);
+        difficulty = std::move(other.difficulty);
     }
 
     return *this;
@@ -46,6 +51,21 @@ bool Entry::operator>(Entry const& other) const
     return score > other.score;
 }
 
+std::string Entry::GetName()
+{
+    return name;
+}
+
+std::string Entry::GetDifficulty()
+{
+    return difficulty;
+}
+
+int Entry::GetScore()
+{
+    return score;
+}
+
 Scoreboard::Scoreboard(std::string file_path)
     : scores_file_path{ file_path } { ReadScores(); }
 
@@ -54,29 +74,37 @@ Scoreboard::~Scoreboard() { SaveScores(); }
 void Scoreboard::DisplayScores()
 {
     std::cout << "\n";
-    std::cout << "******** HIGH SCORES ********" << std::endl;
-    std::cout << "Name                    Score" << std::endl;
-    std::cout << "_____________________________" << std::endl;
+    std::cout << "******     HIGH SCORES      ******" << std::endl;
+    std::cout << "Name         Score      Difficulty" << std::endl;
+    std::cout << "__________________________________" << std::endl;
     for (Entry& entry : scores)
     {
-        std::string entry_name{ entry.name };
-        int pad = MAX_STRING_SIZE - entry.name.size();
-        std::cout << entry_name.append(pad, ' ') << entry.score << std::endl;
+        std::string entry_name = entry.GetName();
+        std::string entry_score = std::to_string(entry.GetScore());
+        std::string entry_difficulty = entry.GetDifficulty();
+
+        int name_pad = MAX_STRING_SIZE - entry_name.size();
+        int score_pad = MAX_STRING_SIZE - entry_score.size();
+
+        std::cout << entry_name.append(name_pad, ' ')
+                  << entry_score.append(score_pad, ' ')
+                  << entry_difficulty
+                  << std::endl;
     }
     std::cout << "\n";
 }
 
 void Scoreboard::ReadScores()
 {
-    std::string line, name, score;
+    std::string line, name, score, difficulty;
     std::ifstream stream{scores_file_path};
     if (stream.is_open())
     {
         while (std::getline(stream, line))
         {
             std::istringstream line_stream{line};
-            line_stream >> name >> score;
-            scores.emplace_back(name, std::stoi(score));
+            line_stream >> name >> score >> difficulty;
+            scores.emplace_back(name, std::stoi(score), difficulty);
         }
         OrderScoreboard();
         stream.close();
@@ -92,7 +120,7 @@ void Scoreboard::SaveScores()
     {
         for (Entry& entry : scores)
         {
-            stream << entry.name << " " << entry.score << std::endl;
+            stream << entry.GetName() << " " << entry.GetScore() << " " << entry.GetDifficulty() << std::endl;
         }
         stream.close();
     } else {
@@ -106,7 +134,7 @@ bool Scoreboard::IsTopScore(int new_score)
     {
         return true;
     }
-    return new_score > scores.back().score;
+    return new_score > scores.back().GetScore();
 }
 
 void Scoreboard::AddScore(Entry new_score)
@@ -130,7 +158,7 @@ void Scoreboard::OrderScoreboard()
     );
 }
 
-void Scoreboard::HandleScore(int new_score)
+void Scoreboard::HandleScore(int new_score, std::string difficulty)
 {
     if (IsTopScore(new_score))
     {
@@ -143,7 +171,7 @@ void Scoreboard::HandleScore(int new_score)
         {
             name = name.substr(0, MAX_STRING_SIZE);
         }
-        Entry entry{name, new_score};
+        Entry entry{name, new_score, difficulty};
         AddScore(entry);
         OrderScoreboard();
     }
