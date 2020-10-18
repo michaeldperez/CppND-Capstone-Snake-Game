@@ -7,22 +7,22 @@
 
 const int MAX_STRING_SIZE = 15;
 
-Entry::Entry(std::string name, int score, std::string difficulty)
+Scoreboard::Entry::Entry(std::string name, int score, std::string difficulty)
     : name{ name }
     , score{ score }
     , difficulty{ difficulty } {}
 
-Entry::Entry(Entry const& other)
+Scoreboard::Entry::Entry(Entry const& other)
     : name{ other.name }
     , score{ other.score }
     , difficulty{ other.difficulty } {}
 
-Entry::Entry(Entry&& other) noexcept
+Scoreboard::Entry::Entry(Entry&& other) noexcept
     : name{ std::move(other.name) }
     , score{ std::exchange(other.score, 0) }
     , difficulty{ std::move(other.difficulty) } {}
 
-Entry& Entry::operator=(Entry const& other)
+Scoreboard::Entry& Scoreboard::Entry::operator=(Entry const& other)
 {
     if (this != &other)
     {
@@ -34,7 +34,7 @@ Entry& Entry::operator=(Entry const& other)
     return *this;
 }
 
-Entry& Entry::operator=(Entry&& other) noexcept
+Scoreboard::Entry& Scoreboard::Entry::operator=(Entry&& other) noexcept
 {
     if (this != &other)
     {
@@ -46,22 +46,22 @@ Entry& Entry::operator=(Entry&& other) noexcept
     return *this;
 }
 
-bool Entry::operator>(Entry const& other) const
+bool Scoreboard::Entry::operator>(Entry const& other) const
 {
     return score > other.score;
 }
 
-std::string Entry::GetName()
+std::string Scoreboard::Entry::GetName()
 {
     return name;
 }
 
-std::string Entry::GetDifficulty()
+std::string Scoreboard::Entry::GetDifficulty()
 {
     return difficulty;
 }
 
-int Entry::GetScore()
+int Scoreboard::Entry::GetScore()
 {
     return score;
 }
