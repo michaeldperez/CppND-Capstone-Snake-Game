@@ -31,6 +31,27 @@ In this project, you can build your own C++ application or extend this Snake gam
 4. Run it: `./SnakeGame`.
 
 ## Overview of Code Structure
+This project introduces two new classes:
+
+## Menu ##
+The `Menu` class is responsible for accepting user input to select the game's difficulty. 
+
+![Menu](menu.png)
+
+The available choices are `Easy`, `Medium`, and `Hard`, whereby the `Snake`'s initial speed and rate of increase doubles between levels (handled in the `Snake` and `Game` classes, respectively). Furthermore, this selection is used to display the difficulty during the game, as well as alongside high scores in the scoreboard.
+
+![Difficulty](difficulty.png)
+
+## Scoreboard ##
+The `Scoreboard` class is responsible for reading and writing to the `high_scores.txt` file, as well as keeping track and sorting the game's history of top ten high scores.
+
+If, at the end of play, a player's score is one of the ten highest recorded scores, s/he is asked to provide their name to be added to the list of ten highest scores:
+
+![High Scores](high_score.png)
+
+At the conclusion of the game the scoreboard of ten highest scores is displayed to the player:
+
+![Scoreboard](scoreboard.png)
 
 ## Rubric* ##
 ### Loops, Functions, I/O
