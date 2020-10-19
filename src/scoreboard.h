@@ -38,6 +38,6 @@ private:
     void DisplayScores();
     void ReadScores();
     void SaveScores();
-    void AddScore(Entry new_score);
+    void AddScore(Entry&& new_score);
     void OrderScoreboard();
 };

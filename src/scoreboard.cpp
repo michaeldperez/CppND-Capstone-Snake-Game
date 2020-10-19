@@ -142,15 +142,15 @@ bool Scoreboard::IsTopScore(int new_score)
     return new_score > scores.back().GetScore();
 }
 
-void Scoreboard::AddScore(Entry new_score)
+void Scoreboard::AddScore(Entry&& new_score)
 {
     std::size_t number_of_high_scores{ scores.size() };
 
     if (number_of_high_scores < 10)
     {
-        scores.push_back(new_score);
+        scores.push_back(std::move(new_score));
     } else {
-        scores.at(number_of_high_scores) = new_score;
+        scores.at(number_of_high_scores) = std::move(new_score);
     }
 }
 
@@ -177,7 +177,7 @@ void Scoreboard::HandleScore(int new_score, std::string difficulty)
             name = name.substr(0, MAX_STRING_SIZE);
         }
         Entry entry{name, new_score, difficulty};
-        AddScore(entry);
+        AddScore(std::move(entry));
         OrderScoreboard();
     }
     DisplayScores();
